@@ -1,16 +1,17 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/schemas/user.schemas';
 import { passwordDto } from './dto/password.dto';
 import * as bcrypt from 'bcrypt'
+import { Applicate } from 'src/schemas/applicant.schema';
 
 
 @Injectable()
 export class UserService {
     constructor(
-         @InjectModel(User.name) private User: Model<User>
-    ) {}
+         @InjectModel(User.name) private User: Model<User>,
+         @InjectModel(Applicate.name) private Applicate: Model<Applicate>) {}
 
     async profile(id: string) {
         const user = await this.User.findById(id)
@@ -20,15 +21,15 @@ export class UserService {
     }
 
     async applications(id: string) {
-        const user = await this.User.findById(id)
-        // .populate('applications')
-        // .select('applications')
-        
-        if(!user) {
-            throw new BadRequestException('User is not found')
+        const user = await this.getById(id)
+
+        const apl = await this.Applicate.findOne({userId: user.id})
+        .select('-userId')
+        if(!apl) {
+            throw new NotFoundException('Applicate is not found')
         }
 
-        return user
+        return apl
     }
 
     async changePassword(id: string, data: passwordDto) {
