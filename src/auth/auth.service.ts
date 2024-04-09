@@ -11,6 +11,7 @@ import { otpDto } from './dto/otp.dto';
 import { Otp } from 'src/schemas/auth/otp.schemas';
 import { tokenDto } from './dto/toke.dto';
 import { Admin } from 'src/schemas/auth/admin.schemas';
+import { Applicate } from 'src/schemas/applicant.schema';
 
 
 @Injectable()
@@ -18,7 +19,8 @@ export class AuthService {
     constructor(@InjectModel(User.name) private User: Model<User>,
     private jwt: JwtService, @InjectModel(FakeUser.name) private FakeUser: Model<FakeUser>,
     private SmsService: SmsService, @InjectModel(Otp.name) private Otp: Model<Otp>,
-    @InjectModel(Admin.name) private Admin: Model<Admin>) {}
+    @InjectModel(Admin.name) private Admin: Model<Admin>,
+    @InjectModel(Applicate.name) private Applicate: Model<Applicate>) {}
 
 
     async getAll() {
@@ -119,6 +121,9 @@ export class AuthService {
 
         const user = new this.User({username: fake.username, phone: fake.phone, password: fake.password})
         await user.save()
+
+        const apl = new this.Applicate({owner: user.id})
+        await apl.save()
 
         await this.FakeUser.findByIdAndDelete(fake.id)
         return this.issueTokens(user.id)

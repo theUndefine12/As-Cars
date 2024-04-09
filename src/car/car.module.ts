@@ -7,11 +7,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Category, CategorySchema } from 'src/schemas/category.schemas';
 import { Admin, AdminSchema } from 'src/schemas/auth/admin.schemas';
 import { User, UserSchema } from 'src/schemas/user.schemas';
+import { Applicate, applicationSchema } from 'src/schemas/applicant.schema';
 
 @Module({
   imports: [FileModule, MongooseModule.forFeature([{name: Car.name, schema: CarSchema},
   {name: Category.name, schema: CategorySchema}, {name: Admin.name, schema: AdminSchema},
-  {name: User.name, schema: UserSchema}])],
+  {name: User.name, schema: UserSchema}, {name: Applicate.name, schema: applicationSchema}])],
   controllers: [CarController],
   providers: [CarService],
 })
