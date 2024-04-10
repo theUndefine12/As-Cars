@@ -17,7 +17,7 @@ import {redisStore} from 'cache-manager-redis-yet'
 
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb+srv://aset:aset@zulayxooooo.e99lfsz.mongodb.net/?retryWrites=true&w=majority&appName=Zulayxooooo'), AuthModule,
+  imports: [MongooseModule.forRoot('your_mongodb_url'), AuthModule,
   EskizModule,
   ConfigModule.forRoot(),
   UserModule,
