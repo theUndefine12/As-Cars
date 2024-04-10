@@ -13,7 +13,7 @@ export class SmsService {
   
   constructor(
     @InjectModel(Otp.name) private readonly otpModel: Model<Otp>,
-  ) {this.email = 'miko.mikoo1999@gmail.com', this.password = 'miyrkazak1'}
+  ) {this.email = 'your_email', this.password = 'your_password'}
 
 
 
